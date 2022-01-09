@@ -1,3 +1,12 @@
+ReadMe.html
+dist/**/*.map
+
+临时文件
+
+# 以下是与特定工具相关的条目
+
+node_modules/
+
 .DS_Store
 
 npm-debug.log*
@@ -5,11 +14,8 @@ yarn-debug.log*
 yarn-error.log*
 **/*.log
 
-tests/**/coverage/
-tests/e2e/reports
 selenium-debug.log
 
-# Editor directories and files
 .idea
 *.suo
 *.ntvs*
@@ -18,22 +24,3 @@ selenium-debug.log
 *.local
 
 yarn.lock
-
-ReadMe.html
-文档/**/*.html
-node_modules/
-dist*/
-dist_*/
-dist-*/
-
-temp
-临时文件
-
-src/**/*.old.js
-src/**/*.old.json
-src/**/*.old.vue
-src/**/*.old.css
-src/**/*.old.less
-src/**/*.old.scss
-src/**/*.old.sass
-src/**/*.old.styl
