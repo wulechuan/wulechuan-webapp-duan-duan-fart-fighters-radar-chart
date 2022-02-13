@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 
-import PageDefault from '../pages/page-default.vue'
+import PageDefault from '@/视图层/页/默认页.vue'
 
 Vue.use(VueRouter)
 

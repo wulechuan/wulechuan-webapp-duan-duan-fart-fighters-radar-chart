@@ -52,17 +52,8 @@ const radarSplitAreaColors_OverDarkBg = ['#ffffff09', '#ffffff03']
 const radarLineColors_OverLightBg = ['#00000020']
 const radarSplitAreaColors_OverLightBg = ['#00000009', '#00000003']
 
-const seriesColors = [
-    '#f93', // 小树懒
-    '#ca0', // 大嘴鸭
-    '#a73', // 肥肥
-    '#ff0', // 端端
-    '#69d', // 爸爸
-    '#f99', // 小奶猪
-    '#7c8', // 小奶龙
-    '#ffb', // 小黄
-    '#393', // 老霸
-]
+import { 各臭屁战士之战力 } from '@/数据/各臭屁战士之战力'
+import { 各臭屁战士之图表元素之配色 } from '@/数据/各臭屁战士之图表元素之配色'
 
 @Component({
     components: {
@@ -73,7 +64,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
     echartsCreator = echarts
     // echartsOptions = null
     echartsThemeIsDark = localStorage.getItem('charts-theme-is-dark') === 'true'
-    chartTitleText = '臭 屁 战 士 综 合 战 力 表'
+    chartTitleText = '臭 屁 战 士 综 合 战 力 图 表'
 
     mounted (): void {
         document.title = this.chartTitleText.replace(/\s+/g, '')
@@ -86,105 +77,12 @@ export default class DuanDuanFartFightersCharts extends Vue {
     }
 
     get echartsOptions (): { [key: string]: any; } {
-        const seriesData = [
-            {
-                name: '小树懒',
-                value: [
-                    37, // 催屁神豆食量
-                    83, // 中国吹牛指标
-                    45.3, // 放屁量指标
-                    91, // 放屁质量综合指标
-                    42, // 贪睡
-                ],
-            },
-            {
-                name: '大嘴鸭',
-                value: [
-                    62, // 催屁神豆食量
-                    85, // 中国吹牛指标
-                    23, // 放屁量指标
-                    100, // 放屁质量综合指标
-                    20, // 贪睡
-                ],
-            },
-            {
-                name: '肥肥',
-                value: [
-                    89, // 催屁神豆食量
-                    99, // 中国吹牛指标
-                    100, // 放屁量指标
-                    76, // 放屁质量综合指标
-                    91, // 贪睡
-                ],
-            },
-            {
-                name: '端端',
-                value: [
-                    100, // 催屁神豆食量
-                    100, // 中国吹牛指标
-                    100, // 放屁量指标
-                    100, // 放屁质量综合指标
-                    100, // 贪睡
-                ],
-            },
-            {
-                name: '爸爸',
-                value: [
-                    80, // 催屁神豆食量
-                    80, // 中国吹牛指标
-                    40, // 放屁量指标
-                    40, // 放屁质量综合指标
-                    250, // 贪睡
-                ],
-            },
-            {
-                name: '小奶猪',
-                value: [
-                    80, // 催屁神豆食量
-                    80, // 中国吹牛指标
-                    80, // 放屁量指标
-                    50, // 放屁质量综合指标
-                    100, // 贪睡
-                ],
-            },
-            {
-                name: '小奶龙',
-                value: [
-                    100, // 催屁神豆食量
-                    100, // 中国吹牛指标
-                    50, // 放屁量指标
-                    80, // 放屁质量综合指标
-                    80, // 贪睡
-                ],
-            },
-            {
-                name: '小黄',
-                value: [
-                    80, // 催屁神豆食量
-                    100, // 中国吹牛指标
-                    100, // 放屁量指标
-                    100, // 放屁质量综合指标
-                    69, // 贪睡
-                ],
-            },
-            {
-                name: '老霸（老师）',
-                value: [
-                    120, // 催屁神豆食量
-                    100, // 中国吹牛指标
-                    100, // 放屁量指标
-                    150, // 放屁质量综合指标
-                    100, // 贪睡
-                ],
-            },
-        ]
-
         const {
             echartsThemeIsDark,
             chartTitleText,
         } = this
 
-        const seriesAbilities = seriesData.reduce((dict, i) => {
+        const seriesAbilities = 各臭屁战士之战力.reduce((dict, i) => {
             const seriesName = i.name
             const storageValue = localStorage.getItem(`echarts-series-ability-${seriesName}`)
             dict[seriesName] = storageValue === 'true' // || storageValue === true
@@ -236,7 +134,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
             },
 
             legend: {
-                data: seriesData.map(i => i.name),
+                data: 各臭屁战士之战力.map(i => i.name),
                 top: 66,
                 selected: seriesAbilities,
                 inactiveColor: legendInactiveItemColor,
@@ -245,7 +143,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
                 },
             },
 
-            color: seriesColors,
+            color: 各臭屁战士之图表元素之配色,
 
             radar: {
                 shape: 'circle',
@@ -289,7 +187,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
                     name: '各位臭屁战士的数据',
                     type: 'radar',
 
-                    data: seriesData,
+                    data: 各臭屁战士之战力,
 
                     symbolSize: 9,
 
