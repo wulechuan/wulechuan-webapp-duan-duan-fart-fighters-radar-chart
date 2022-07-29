@@ -1,12 +1,12 @@
 <template>
     <div class="duan-duan-fart-fighters-charts">
-        <vue-echarts
+        <WlcVueEcharts
             class="the-echarts-component"
             :class="chartsRootCSSClassNames"
-            :echarts-creator="echartsCreator"
+            :echarts-module-exports-root="echartsModuleRoot"
             :echarts-options="echartsOptions"
             @legendselectchanged="echartsHandleLegendSelectChange"
-        ></vue-echarts>
+        ></WlcVueEcharts>
 
         <div class="operations">
             <label class="form-field">
@@ -39,14 +39,19 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import EChartsVue2Component from '@wulechuan/echarts-vue2-component'
-import * as echarts from 'echarts'
-
-import type {
-    EChartOption,
-} from 'echarts'
 
 import { Component, Vue } from 'vue-property-decorator'
+
+import WlcVueEcharts from '@wulechuan/echarts-vue2-component/源代码/发布的源代码/typescript'
+import * as echartsModuleRoot from 'echarts'
+
+import type {
+    EChartsOption,
+} from 'echarts'
+
+
+
+
 
 interface TEchartsEventObject1 {
     /** Event type */
@@ -59,7 +64,6 @@ interface TEchartsEventObject1 {
 interface TEchartsEventObject_LegendSelectChange extends TEchartsEventObject1 {
     selected: { [seriesName: string]: boolean; };
 }
-
 
 
 
@@ -90,12 +94,11 @@ import { 各臭屁战士之图表元素之配色 } from '@/数据/各臭屁战�
 
 @Component({
     components: {
-        'vue-echarts': EChartsVue2Component,
+        WlcVueEcharts,
     },
 })
 export default class DuanDuanFartFightersCharts extends Vue {
-    echartsCreator = echarts
-    // echartsOptions = null
+    echartsModuleRoot = echartsModuleRoot
     echartsThemeIsDark = localStorage.getItem('charts-theme-is-dark') === 'true'
     chartTitleText = '臭 屁 战 士 综 合 战 力 图 表'
 
@@ -135,14 +138,14 @@ export default class DuanDuanFartFightersCharts extends Vue {
             return dict
         }, {} as { [seriesName: string]: boolean; })
 
-        let legendInactiveItemColor
-        let label1_TextColor
+        let legendInactiveItemColor: string
+        let label1_TextColor: string
 
-        let label2_TextColor
-        let label2_BgColor
+        let label2_TextColor: string
+        let label2_BgColor: string
 
-        let radarLineColors
-        let radarSplitAreaColors
+        let radarLineColors: string[]
+        let radarSplitAreaColors: string[]
 
         if (echartsThemeIsDark) {
             legendInactiveItemColor = '#555'
@@ -164,7 +167,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
             radarSplitAreaColors = radarSplitAreaColors_OverLightBg
         }
 
-        const echartsOptions: EChartOption = {
+        const echartsOptions: EChartsOption = {
             // darkMode: echartsThemeIsDark,
             backgroundColor: 'transparent',
             animationDuration: 510,
@@ -202,7 +205,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
                     { name: '放屁质量综合指标', max: 100 },
                     { name: '贪睡指标', max: 100 },
                 ],
-                nameGap: 51,
+                axisNameGap: 45,
                 axisName: {
                     fontSize: 17,
                     lineHeight: 25,
@@ -213,7 +216,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
                 },
                 axisLine: {
                     lineStyle: {
-                        color: radarLineColors,
+                        color: radarLineColors[0],
                     },
                 },
                 splitLine: {
@@ -247,8 +250,8 @@ export default class DuanDuanFartFightersCharts extends Vue {
                 backgroundColor: 'rgba(0, 0, 0, 0.86)',
                 borderWidth: 2,
 
-                formatter (param) {
-                    const { name, color } = param as { name: string; color: string; [x: string]: any; }
+                formatter (param: { [key: string]: any; }): string {
+                    const { name, color } = param as { name: string; color: string; [key: string]: any; }
                     const areaText: string = 各臭屁战士之战力综合值表[name].toFixed(2)
                     return `<p class="echarts-tooltip-single-row"><span class="label" style="color: ${color};">${
                         name

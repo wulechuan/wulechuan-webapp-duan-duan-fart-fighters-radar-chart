@@ -8,10 +8,10 @@
         "**/node_modules": true,
         "babel.config.js": true,
         ".eslintignore": true,
-        ".eslintrc.js": true,
+        // ".eslintrc.js": true,
         ".editorconfig": true,
         ".markdownlint.json": true,
-        "package-lock.json": true,
+        // "package-lock.json": true,
         // ".gitignore": true,
         ".stylelintrc.js": true
     },

@@ -12,6 +12,7 @@ module.exports = {
                 MemberExpression: 1,
             },
         ],
+        '@typescript-eslint/no-explicit-any': 0,
         'vue/html-indent': [
             'error',
             4,
@@ -107,7 +108,7 @@ module.exports = {
     },
     'extends': [
         'plugin:vue/essential',
-        'eslint:recommended',
+        // 'eslint:recommended',
         '@vue/typescript/recommended',
     ],
     parserOptions: {
