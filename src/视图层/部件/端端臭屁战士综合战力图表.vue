@@ -14,6 +14,24 @@
                 <span class="field-label-text">采用深色主题</span>
             </label>
 
+            <div class="rank-board">
+                <h4>综合评定榜</h4>
+
+                <hr>
+
+                <ol class="rank-list">
+                    <li
+                        v-for="(character, arrayIndex) in 各臭屁战士之战力_已排序"
+                        :key="`${arrayIndex + 1}-${character.name}`"
+                    >
+                        <span
+                            class="label"
+                            :style="{ color: character.color }"
+                        >{{ character.name }}：</span><span class="value">{{ character.areaString }}</span>
+                    </li>
+                </ol>
+            </div>
+
             <a href="https://echarts.apache.org/zh/option.html" target="_blank">《ECharts 文档》</a>
         </div>
     </div>
@@ -23,6 +41,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import EChartsVue2Component from '@wulechuan/echarts-vue2-component'
 import * as echarts from 'echarts'
+
+import type {
+    EChartOption,
+} from 'echarts'
 
 import { Component, Vue } from 'vue-property-decorator'
 
@@ -38,6 +60,11 @@ interface TEchartsEventObject_LegendSelectChange extends TEchartsEventObject1 {
     selected: { [seriesName: string]: boolean; };
 }
 
+
+
+
+
+
 const label1_OverDarkBg_TextColor = '#ffffff'
 const label1_OverLightBg_TextColor = '#000000'
 
@@ -52,8 +79,14 @@ const radarSplitAreaColors_OverDarkBg = ['#ffffff09', '#ffffff03']
 const radarLineColors_OverLightBg = ['#00000020']
 const radarSplitAreaColors_OverLightBg = ['#00000009', '#00000003']
 
-import { 各臭屁战士之战力 } from '@/数据/各臭屁战士之战力'
+
+
+import { 各臭屁战士之战力, 各臭屁战士之战力综合值表 } from '@/数据/各臭屁战士之战力'
 import { 各臭屁战士之图表元素之配色 } from '@/数据/各臭屁战士之图表元素之配色'
+
+
+
+
 
 @Component({
     components: {
@@ -68,6 +101,19 @@ export default class DuanDuanFartFightersCharts extends Vue {
 
     mounted (): void {
         document.title = this.chartTitleText.replace(/\s+/g, '')
+    }
+
+    get 各臭屁战士之战力_已排序 (): Array<(typeof 各臭屁战士之战力[number]) & {
+        areaString: string;
+        color: string;
+    }> {
+        return 各臭屁战士之战力.map((characterData, index) => {
+            return {
+                ...characterData,
+                areaString: characterData.area.toFixed(2),
+                color: 各臭屁战士之图表元素之配色[index],
+            }
+        }).sort((甲, 乙) => 乙.area - 甲.area)
     }
 
     get chartsRootCSSClassNames (): { [cssClassName: string]: any; } {
@@ -118,8 +164,8 @@ export default class DuanDuanFartFightersCharts extends Vue {
             radarSplitAreaColors = radarSplitAreaColors_OverLightBg
         }
 
-        return {
-            darkMode: echartsThemeIsDark,
+        const echartsOptions: EChartOption = {
+            // darkMode: echartsThemeIsDark,
             backgroundColor: 'transparent',
             animationDuration: 510,
 
@@ -196,7 +242,24 @@ export default class DuanDuanFartFightersCharts extends Vue {
                     },
                 },
             ],
+
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.86)',
+                borderWidth: 2,
+
+                formatter (param) {
+                    const { name, color } = param as { name: string; color: string; [x: string]: any; }
+                    const areaText: string = 各臭屁战士之战力综合值表[name].toFixed(2)
+                    return `<p class="echarts-tooltip-single-row"><span class="label" style="color: ${color};">${
+                        name
+                    }：</span><span class="value">${
+                        areaText
+                    }</span><span class="value-unit">哩咯哢能量</span></p>`
+                },
+            },
         }
+
+        return echartsOptions
     }
 
     handleOperationChange_ThemeDarkMark (event: InputEvent): void {
@@ -236,7 +299,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
 
     .operations {
         position relative
-        flex 0 0 13rem
+        flex 0 0 17rem
         margin-left 1rem
         padding .5rem 1rem 2.5rem
         border-style solid
@@ -258,6 +321,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
             text-align center
             background-color #ccc
             padding 0.5rem 1rem
+            text-decoration none
         }
     }
 
@@ -270,6 +334,91 @@ export default class DuanDuanFartFightersCharts extends Vue {
 
         &.theme-is-dark {
             background-color #222
+        }
+    }
+
+    .echarts-tooltip-single-row {
+        margin 0
+
+        > .label,
+        > .value,
+        > .value-unit {
+            display inline-block
+        }
+
+        > .label {
+            width 4em
+            text-align right
+        }
+
+        > .value {
+            color white
+            width 3em
+            text-align right
+            margin 0 1em 0 0.5em
+        }
+
+        > .value-unit {
+            width 5em
+            text-align left
+        }
+    }
+
+    .rank-board {
+        border-radius 0.5em
+        font-size 0.85em
+        padding 0.2rem
+        color #666
+        background-color #111
+        cursor default
+
+        h4 {
+            font-size 1rem
+            color white
+            text-align center
+            margin 1em 0
+            letter-spacing 0.5em
+            text-indent 0.5em
+        }
+
+        hr {
+            border-width 0
+            margin 1em 0 0.5em
+            height 1px
+            background-color #fff3
+        }
+    }
+
+    .rank-list {
+        margin 0
+        padding 0.5em 0.5em 1em 3em
+
+        > li {
+            margin 0.25em 0
+            padding 0.5em 0.5em
+            white-space nowrap
+            border-radius 0.3em
+
+            > .label,
+            > .value {
+                display inline-block
+            }
+
+            > .label {
+                width 6.5em
+                margin 0 0.5em
+            }
+
+            > .value {
+                width 5em
+                margin 0 0.5em 0 0
+                text-align right
+                color white
+            }
+
+            &:hover {
+                background-color rgba(white, 0.15)
+            }
         }
     }
 }
