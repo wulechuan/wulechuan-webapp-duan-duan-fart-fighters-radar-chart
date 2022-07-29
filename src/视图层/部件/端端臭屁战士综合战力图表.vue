@@ -339,6 +339,8 @@ export default class DuanDuanFartFightersCharts extends Vue {
 
     .echarts-tooltip-single-row {
         margin 0
+        width 18em
+        padding 0 0 0 0.5em
 
         > .label,
         > .value,
@@ -347,8 +349,8 @@ export default class DuanDuanFartFightersCharts extends Vue {
         }
 
         > .label {
-            width 4em
-            text-align right
+            width 8em
+            text-align left
         }
 
         > .value {
@@ -359,7 +361,7 @@ export default class DuanDuanFartFightersCharts extends Vue {
         }
 
         > .value-unit {
-            width 5em
+            width 6em
             text-align left
         }
     }
